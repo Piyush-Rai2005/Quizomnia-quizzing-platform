@@ -1,0 +1,21 @@
+{
+  "name": "quiz_app",
+  "version": "1.0.0",
+  "description": "a quiz app made using react js and some knowledge from youtube and chai aur code",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": [
+    "javascript",
+    "backend",
+    "chai",
+    "quiz"
+  ],
+  "author": "Piyush Rai",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "prettier": "^3.4.2"
+  }
+}
