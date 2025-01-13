@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import data from "../database/data";
 
+/**Custom hook */
+import { useFetchQuestion } from "../hooks/FetchQuestion";
 export default function Questions() {
   const [checked, setChecked] = useState(undefined);
-
+  const [{Loading, apiData, serverError}] = useFetchQuestion();
   const question = data[0];
+
   useEffect(() => {
     console.log(question);
   });
@@ -43,7 +46,7 @@ export default function Questions() {
         ))}
       </ul>
 
-        
+
     </div>
   );
 }
