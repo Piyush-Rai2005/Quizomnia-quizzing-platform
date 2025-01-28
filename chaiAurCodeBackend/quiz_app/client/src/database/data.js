@@ -93,4 +93,10 @@ export default [
     }
 ];
 
+<<<<<<< HEAD
 export const answers = [0,1,2,1,0];
+=======
+]
+
+export const answers = [0,1,2,1,0,1,2,1,1,0];
+>>>>>>> efcea6cd3ba8444a201d5524075d0f95685af4c1

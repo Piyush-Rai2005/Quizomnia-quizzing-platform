@@ -1,11 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import ResultTable from './ResultTable';
+import { useDispatch, useSelector } from 'react-redux';
+import { attempts_Number, earnPoints_Number, flagResult } from '../helper/helper';
+
+
+import { resetAllAction } from '../store/question.reducer';
+import { resetResultAction } from '../store/result.reducer';
+
 
 export default function Result() {
+
+  const dispatch=useDispatch();
+  const { questions: {queue, answers}, result : {result, usreId}}= useSelector(state=> state)
+
+useEffect(()=>{
+  console.log(earnPoints)
+})
+
+const totalPoints = queue.length*10;
+const attempts=attempts_Number(result);
+const earnPoints= earnPoints_Number(result,answers,10);
+const flag= flagResult(totalPoints,earnPoints);
+
+
   function onRestart() {
-    console.log('on Restart');
+    dispatch(resetAllAction());
+    dispatch(resetResultAction()); 
+
   }
 
   return (
@@ -23,23 +46,23 @@ export default function Result() {
         </div>
         <div className="flex justify-between mb-4">
           <span className="text-lg font-medium">Total Quiz Points:</span>
-          <span className="font-bold">50</span>
+          <span className="font-bold">{totalPoints || 0}</span>
         </div>
         <div className="flex justify-between mb-4">
           <span className="text-lg font-medium">Total Questions:</span>
-          <span className="font-bold">05</span>
+          <span className="font-bold">{queue.length || 0}</span>
         </div>
         <div className="flex justify-between mb-4">
           <span className="text-lg font-medium">Total Attempts:</span>
-          <span className="font-bold">02</span>
+          <span className="font-bold">{attempts || 0}</span>
         </div>
         <div className="flex justify-between mb-4">
           <span className="text-lg font-medium">Total Earn Points:</span>
-          <span className="font-bold">30</span>
+          <span className="font-bold">{earnPoints || 0}</span>
         </div>
         <div className="flex justify-between">
           <span className="text-lg font-medium">Quiz Result:</span>
-          <span className="font-bold text-green-400">Passed</span>
+          <span style={{color :`${flag ?"2aff95":"ff2a66"}`}} className="font-bold text-green-400">{flag ? "Passed" : "Fail"}</span>
         </div>
       </div>
 
