@@ -18,16 +18,21 @@ export default function Quiz() {
 
   function onNext(){
     console.log('Next')
-   if(trace < queue.length-1){
-     dispatch(MoveNextQuestion());
-     if(result.length <=trace){
-       dispatch(PushAnswer(check))
-     }
-   }
-   // reset values //
-   setChecked(undefined)
 
-  }
+    // Push answer if not already recorded
+    if(result.length === trace){
+        dispatch(PushAnswer(check));
+    }
+
+    // Move to next question only if not at the last question
+    if(trace < queue.length - 1){
+        dispatch(MoveNextQuestion());
+    }
+
+    // Reset selected option
+    setChecked(undefined);
+}
+
 
   function onPrev(){
     if(trace >0){
@@ -41,7 +46,7 @@ export default function Quiz() {
 
   }
   //on fininshing the exam go to result page//
-  if(result.length && result.length >=queue.length-1){
+  if(result.length && result.length ===queue.length){
     return <Navigate to ={'/result'} replace={true}></Navigate>
   }
 

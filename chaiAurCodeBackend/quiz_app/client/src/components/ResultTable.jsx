@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { getServerData } from '../helper/helper';
 
 export default function ResultTable() {
+  const [data,setData]=useState([])
+  useEffect(()=>{
+    getServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/result`, (res)=>{
+      setData(res)
+    })
+  })
   return (
     <div className="mt-6 w-full overflow-x-auto">
       <table className="table-auto w-full border-collapse border border-gray-700 text-white">
@@ -16,12 +23,17 @@ export default function ResultTable() {
 
         {/* Table Body */}
         <tbody>
-          <tr className="bg-gray-900 border-b border-gray-700 hover:bg-gray-800">
-            <td className="px-4 py-3">Piyush</td>
-            <td className="px-4 py-3">02</td>
-            <td className="px-4 py-3">30</td>
-            <td className="px-4 py-3 text-green-400">Passed</td>
-          </tr>
+          {!data ?? <div>No data found</div>}
+          {
+            data.map((v,i)=>(
+              <tr className="bg-gray-900 border-b border-gray-700 hover:bg-gray-800" key={i}>
+                <td className="px-4 py-3">{v?.username || ' '}</td>
+                <td className="px-4 py-3">{v?.attempts || 0}</td>
+                <td className="px-4 py-3">{v?.points || 0}</td>
+                <td className="px-4 py-3 text-green-400">{v?.achieved || ""}</td>
+              </tr>
+            ))
+          }
         </tbody>
       </table>
     </div>

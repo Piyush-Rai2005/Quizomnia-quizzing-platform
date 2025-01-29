@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+// import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import ResultTable from './ResultTable';
@@ -8,22 +8,31 @@ import { attempts_Number, earnPoints_Number, flagResult } from '../helper/helper
 
 import { resetAllAction } from '../store/question.reducer';
 import { resetResultAction } from '../store/result.reducer';
+import { usePublishResult } from '../hooks/setResult';
 
 
 export default function Result() {
 
   const dispatch=useDispatch();
-  const { questions: {queue, answers}, result : {result, usreId}}= useSelector(state=> state)
+  const { questions: {queue, answers}, result : {result, userId}}= useSelector(state=> state)
 
-useEffect(()=>{
-  console.log(earnPoints)
-})
+// useEffect(()=>{
+//   console.log(earnPoints)
+// })
 
 const totalPoints = queue.length*10;
 const attempts=attempts_Number(result);
 const earnPoints= earnPoints_Number(result,answers,10);
 const flag= flagResult(totalPoints,earnPoints);
 
+/** store user result */
+usePublishResult({
+  result, 
+  username: userId, 
+  attempts, 
+  points: earnPoints, 
+  achieved: flag ? "Passed" : "Fail" });
+// console.log({result,username: usreId, attempts, points: earnPoints, achieved: flag ? "Passed" : "Failed"})
 
   function onRestart() {
     dispatch(resetAllAction());
@@ -42,7 +51,7 @@ const flag= flagResult(totalPoints,earnPoints);
       <div className="bg-gray-800 text-white rounded-lg shadow-md p-6 w-full max-w-md">
         <div className="flex justify-between mb-4">
           <span className="text-lg font-medium">Username:</span>
-          <span className="font-bold">Piyush</span>
+          <span className="font-bold">{userId}</span>
         </div>
         <div className="flex justify-between mb-4">
           <span className="text-lg font-medium">Total Quiz Points:</span>
