@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "tailwindcss": "^3.4.17",
     "axios": "^1.7.9"
   }
 }
